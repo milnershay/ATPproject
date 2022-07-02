@@ -22,10 +22,7 @@
                     <MenuItem mnemonicParsing="false" text="Properties" />
                   </items>
                 </Menu>
-                  <Menu  mnemonicParsing="false" text="Exit">
-                    <items>
-                      <MenuItem onAction="#quit" mnemonicParsing="false" text="Quit" />
-                    </items>
+                  <Menu onAction="#quit" mnemonicParsing="false" text="Exit">
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>

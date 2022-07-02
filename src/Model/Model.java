@@ -120,10 +120,13 @@ public class Model extends Observable implements IModel {
     }
 
     private void movePlayer(int row, int col){
-        this.playerRow = row;
-        this.playerCol = col;
-        setChanged();
-        notifyObservers("player moved");
+        int [][] mat = maze.getMaze();
+        if (mat[row][col] != 1) {
+            this.playerRow = row;
+            this.playerCol = col;
+            setChanged();
+            notifyObservers("player moved");
+        }
     }
 
     @Override
