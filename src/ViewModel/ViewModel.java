@@ -65,4 +65,10 @@ public class ViewModel extends Observable implements Observer {
     public void solveMaze(){
         model.solveMaze();
     }
+
+    public void quit(){
+        model.quit();
+    }
+
+
 }

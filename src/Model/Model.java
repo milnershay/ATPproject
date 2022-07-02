@@ -29,7 +29,6 @@ public class Model extends Observable implements IModel {
     public Model() {
         (new Thread(mazeGeneratingServer::start)).start();
         (new Thread(mazeSolvingServer::start)).start();
-
     }
 
     @Override
@@ -153,5 +152,10 @@ public class Model extends Observable implements IModel {
     @Override
     public Solution getSolution() {
         return solution;
+    }
+
+    public void quit(){
+        mazeGeneratingServer.stop();
+        mazeSolvingServer.stop();
     }
 }

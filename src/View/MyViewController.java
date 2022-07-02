@@ -118,4 +118,8 @@ public class MyViewController implements Initializable, Observer {
         mazeDisplayer.drawMaze(viewModel.getMaze());
     }
 
+    public void quit(){
+        viewModel.quit();
+    }
+
 }
