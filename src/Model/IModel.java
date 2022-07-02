@@ -1,10 +1,12 @@
 package Model;
 
+import algorithms.mazeGenerators.Maze;
+
 import java.util.Observer;
 
 public interface IModel {
     void generateMaze(int rows, int cols);
-    int[][] getMaze();
+    Maze getMaze();
     void updatePlayerLocation(MovementDirection direction);
     int getPlayerRow();
     int getPlayerCol();

@@ -1,42 +1,95 @@
 package Model;
 
+import Client.Client;
+import Client.IClientStrategy;
+import IO.SimpleDecompressorInputStream;
+import Server.Server;
+import Server.ServerStrategyGenerateMaze;
+import Server.ServerStrategySolveSearchProblem;
+import algorithms.mazeGenerators.Maze;
+import algorithms.mazeGenerators.Position;
+
+import java.io.*;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
 
 public class Model extends Observable implements IModel {
-    private int[][] maze;
+    private Maze maze;
     private int playerRow;
     private int playerCol;
     private Solution solution;
-    private MazeGenerator generator;
+
+    private final Server mazeGeneratingServer = new Server(5400, 1000, new ServerStrategyGenerateMaze());
+    private final Server mazeSolvingServer = new Server(5401, 1000, new ServerStrategySolveSearchProblem());
+
+
 
     public Model() {
-        generator = new MazeGenerator();
+        (new Thread(mazeGeneratingServer::start)).start();
+        (new Thread(mazeSolvingServer::start)).start();
+
     }
 
     @Override
     public void generateMaze(int rows, int cols) {
-        maze = generator.generateRandomMaze(rows, cols);
+
+        maze = CommunicateWithServer_MazeGenerating(rows, cols);
         setChanged();
         notifyObservers("maze generated");
         // start position:
-        movePlayer(0, 0);
+        Position pos = maze.getStartPosition();
+        movePlayer(pos.getRowIndex(), pos.getColumnIndex());
+    }
+
+    private static Maze CommunicateWithServer_MazeGenerating(int r, int c) {
+        final Maze[] maze = new Maze[1];
+        try {
+            Client client = new Client(InetAddress.getLocalHost(), 5400, new IClientStrategy() {
+                public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
+                    try {
+                        ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
+                        ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
+                        toServer.flush();
+                        int[] mazeDimensions = new int[]{r, c};
+                        toServer.writeObject(mazeDimensions);
+                        toServer.flush();
+                        byte[] compressedMaze = (byte[])fromServer.readObject();
+                        System.out.println(compressedMaze.toString());
+                        System.out.println();
+                        InputStream is = new SimpleDecompressorInputStream(new ByteArrayInputStream(compressedMaze));
+                        byte[] decompressedMaze = new byte[100000000];
+                        is.read(decompressedMaze);
+                        maze[0] = new Maze(decompressedMaze);
+                    } catch (Exception var10) {
+                        var10.printStackTrace();
+                    }
+
+                }
+            });
+            client.communicateWithServer();
+        } catch (UnknownHostException var1) {
+            var1.printStackTrace();
+        }
+        return maze[0];
     }
 
     @Override
-    public int[][] getMaze() {
+    public Maze getMaze() {
         return maze;
     }
 
     @Override
     public void updatePlayerLocation(MovementDirection direction) {
+        int [][] mat = maze.getMaze();
         switch (direction) {
             case UP -> {
                 if (playerRow > 0)
                     movePlayer(playerRow - 1, playerCol);
             }
             case DOWN -> {
-                if (playerRow < maze.length - 1)
+                if (playerRow < mat.length - 1)
                     movePlayer(playerRow + 1, playerCol);
             }
             case LEFT -> {
@@ -44,7 +97,7 @@ public class Model extends Observable implements IModel {
                     movePlayer(playerRow, playerCol - 1);
             }
             case RIGHT -> {
-                if (playerCol < maze[0].length - 1)
+                if (playerCol < mat[0].length - 1)
                     movePlayer(playerRow, playerCol + 1);
             }
             case LEFT_UP -> {
@@ -52,15 +105,15 @@ public class Model extends Observable implements IModel {
                     movePlayer(playerRow-1, playerCol-1);
             }
             case RIGHT_UP -> {
-                if (playerCol < maze[0].length -1 & playerRow > 0)
+                if (playerCol < mat[0].length -1 & playerRow > 0)
                     movePlayer(playerRow -1 , playerCol +1);
             }
             case LEFT_DOWN -> {
-                if (playerCol > 0 & playerRow < maze.length - 1)
+                if (playerCol > 0 & playerRow < mat.length - 1)
                     movePlayer(playerRow + 1 , playerCol -1 );
             }
             case RIGHT_DOWN -> {
-                if (playerCol < maze[0].length -1 & playerRow < maze.length -1)
+                if (playerCol < mat[0].length -1 & playerRow < mat.length -1)
                     movePlayer(playerRow + 1, playerCol + 1);
             }
         }

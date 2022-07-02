@@ -3,6 +3,7 @@ package ViewModel;
 import Model.IModel;
 import Model.MovementDirection;
 import Model.Solution;
+import algorithms.mazeGenerators.Maze;
 import javafx.scene.input.KeyEvent;
 
 import java.util.Observable;
@@ -22,7 +23,7 @@ public class ViewModel extends Observable implements Observer {
         notifyObservers(arg);
     }
 
-    public int[][] getMaze(){
+    public Maze getMaze(){
         return model.getMaze();
     }
 
