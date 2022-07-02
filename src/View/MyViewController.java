@@ -4,15 +4,21 @@ import ViewModel.ViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Observable;
 import java.util.Observer;
@@ -57,6 +63,8 @@ public class MyViewController implements Initializable, Observer {
         playerCol.textProperty().bind(updatePlayerCol);
     }
 
+
+
     public void generateMaze(ActionEvent actionEvent) {
         int rows = Integer.valueOf(textField_mazeRows.getText());
         int cols = Integer.valueOf(textField_mazeColumns.getText());
@@ -69,13 +77,22 @@ public class MyViewController implements Initializable, Observer {
         viewModel.solveMaze();
     }
 
+    public void saveFile(ActionEvent actionEvent){
+        FileChooser fc = new FileChooser();
+        fc.setTitle("Save maze");
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Maze files (*.maze)", "*.maze"));
+        fc.setInitialDirectory(new File("./resources"));
+        File chosen = fc.showSaveDialog(null);
+        viewModel.saveMaze(chosen);
+    }
+
     public void openFile(ActionEvent actionEvent) {
         FileChooser fc = new FileChooser();
         fc.setTitle("Open maze");
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("Maze files (*.maze)", "*.maze"));
         fc.setInitialDirectory(new File("./resources"));
         File chosen = fc.showOpenDialog(null);
-        //...
+        viewModel.loadMaze(chosen);
     }
 
     public void keyPressed(KeyEvent keyEvent) {
@@ -113,19 +130,41 @@ public class MyViewController implements Initializable, Observer {
         mazeDisplayer.playerWon();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("CONGRATULATIONS!");
+        alert.setHeaderText("YOU WON");
         alert.show();
     }
 
     private void playerMoved() {
         setPlayerPosition(viewModel.getPlayerRow(), viewModel.getPlayerCol());
+
     }
 
     private void mazeGenerated() {
         mazeDisplayer.drawMaze(viewModel.getMaze());
     }
 
+    @FXML public javafx.scene.control.Button closeButton;
+    @FXML
     public void quit(){
         viewModel.quit();
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
+
+
+    public void prop() throws IOException {
+        Stage propStage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("prop.fxml"));
+        Parent root = fxmlLoader.load();
+        PropController propController = fxmlLoader.getController();
+        propController.setViewModel(this.viewModel);
+        propStage.setTitle("Settings");
+        propStage.setScene(new Scene(root));
+        propStage.setResizable(false);
+        propStage.show();
+    }
+
+
+
 
 }

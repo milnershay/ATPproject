@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import View.MazeDisplayer?>
+
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="246.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.PropController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="358.4000244140625" minWidth="10.0" prefWidth="178.2" />
+    <ColumnConstraints hgrow="SOMETIMES" maxWidth="302.39996337890625" minWidth="10.0" prefWidth="180.60000000000002" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="239.59998168945313" minHeight="10.0" prefHeight="103.79998779296875" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="282.39999389648443" minHeight="10.0" prefHeight="176.60001220703123" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="282.39999389648443" minHeight="10.0" prefHeight="176.60001220703123" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Generating Algorithm" wrapText="true">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
+      <Label text="Solving Algorithm" wrapText="true" GridPane.rowIndex="1">
+         <font>
+            <Font size="12.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="genAlgo" prefWidth="150.0" GridPane.columnIndex="1" />
+      <ChoiceBox fx:id="solvAlgo" prefWidth="150.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+       <Button minWidth="10.0" minHeight="10.0" onAction="#updateProp" mnemonicParsing="false" prefHeight="26.0" prefWidth="100.0" text="Update" GridPane.columnSpan="1" GridPane.rowIndex="2"  />
+   </children>
+</GridPane>

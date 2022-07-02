@@ -6,6 +6,7 @@ import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 import javafx.scene.input.KeyEvent;
 
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -70,6 +71,17 @@ public class ViewModel extends Observable implements Observer {
         model.quit();
     }
 
+    public void updateProp(String gen, String solve){
+        model.updateProp(gen, solve);
+    }
+
+    public void saveMaze(File file){
+        model.saveMaze(file);
+    }
+
+    public void loadMaze(File file){
+        model.loadMaze(file);
+    }
 
 
 }

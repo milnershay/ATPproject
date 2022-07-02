@@ -3,6 +3,7 @@ package Model;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 
+import java.io.File;
 import java.util.Observer;
 
 public interface IModel {
@@ -15,4 +16,10 @@ public interface IModel {
     void solveMaze();
     Solution getSolution();
     void quit();
+
+    void updateProp(String gen, String solve);
+
+    void saveMaze(File file);
+
+    void loadMaze(File file);
 }

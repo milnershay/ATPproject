@@ -4,6 +4,8 @@ import Model.IModel;
 import Model.Model;
 import ViewModel.ViewModel;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,15 +17,48 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
         Parent root = fxmlLoader.load();
+
         primaryStage.setTitle("Best Maze Game Ever");
-        primaryStage.setScene(new Scene(root, 1000, 700));
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(true);
         primaryStage.show();
+
 
         IModel model = new Model();
         ViewModel viewModel = new ViewModel(model);
         MyViewController myViewController = fxmlLoader.getController();
         myViewController.setViewModel(viewModel);
+        primaryStage.setOnCloseRequest(windowEvent -> myViewController.quit());
+        primaryStage.widthProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                myViewController.mazeDisplayer.resized();
+            }
+        });
+
+
+        primaryStage.fullScreenProperty().addListener(new ChangeListener<Boolean>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
+                myViewController.mazeDisplayer.resized();
+            }
+        });
+
+        primaryStage.heightProperty().addListener(new ChangeListener<Number>() {
+
+            @Override
+            public void changed(ObservableValue<? extends Number> observableValue, Number number, Number t1) {
+                myViewController.mazeDisplayer.resized();
+            }
+        });
+
+
+
     }
+
+
+
 
     public static void main(String[] args) {
         launch(args);

@@ -2,7 +2,9 @@ package Model;
 
 import Client.Client;
 import Client.IClientStrategy;
+import IO.SimpleCompressorOutputStream;
 import IO.SimpleDecompressorInputStream;
+import Server.Configurations;
 import Server.Server;
 import Server.ServerStrategyGenerateMaze;
 import Server.ServerStrategySolveSearchProblem;
@@ -15,6 +17,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.Properties;
 
 public class Model extends Observable implements IModel {
     private Maze maze;
@@ -195,5 +198,59 @@ public class Model extends Observable implements IModel {
     public void quit(){
         mazeGeneratingServer.stop();
         mazeSolvingServer.stop();
+    }
+
+    public void updateProp(String gen, String sol){
+        try {
+            OutputStream output = new FileOutputStream("resources/config.properties");
+
+            try {
+                Configurations config = Configurations.getInstance();
+                config.writeConfig("2",gen,sol);
+                Properties prop = new Properties();
+                prop.setProperty("threadPoolSize", "2");
+                prop.setProperty("mazeGeneratingAlgorithm", gen);
+                prop.setProperty("mazeSearchingAlgorithm", sol);
+                prop.store(output, (String)null);
+            } catch (Throwable var8) {
+                try {
+                    output.close();
+                } catch (Throwable var7) {
+                    var8.addSuppressed(var7);
+                }
+
+                throw var8;
+            }
+
+            output.close();
+        } catch (IOException var9) {
+            var9.printStackTrace();
+        }
+    }
+
+    public void saveMaze(File file){
+        try {
+            OutputStream out = new SimpleCompressorOutputStream(new FileOutputStream(file));
+            out.write(maze.toByteArray());
+            out.flush();
+            out.close();
+        } catch (IOException var8) {
+            var8.printStackTrace();
+        }
+    }
+
+    public void loadMaze(File file){
+        byte[] savedMazeBytes = new byte[0];
+
+        try {
+            InputStream in = new SimpleDecompressorInputStream(new FileInputStream(file));
+            savedMazeBytes = new byte[maze.toByteArray().length];
+            in.read(savedMazeBytes);
+            in.close();
+        } catch (IOException var7) {
+            var7.printStackTrace();
+        }
+
+        maze = new Maze(savedMazeBytes);
     }
 }
