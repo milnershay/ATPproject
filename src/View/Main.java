@@ -17,12 +17,14 @@ public class Main extends Application {
         Parent root = fxmlLoader.load();
         primaryStage.setTitle("Best Maze Game Ever");
         primaryStage.setScene(new Scene(root, 1000, 700));
-        primaryStage.show();
+        primaryStage.setResizable(true);
 
+        primaryStage.show();
         IModel model = new Model();
         ViewModel viewModel = new ViewModel(model);
         MyViewController myViewController = fxmlLoader.getController();
         myViewController.setViewModel(viewModel);
+        primaryStage.setOnCloseRequest(windowEvent -> myViewController.quit());
     }
 
     public static void main(String[] args) {

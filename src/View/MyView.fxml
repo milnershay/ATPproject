@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import View.MazeDisplayer?>
+<?import com.dlsc.formsfx.view.controls.SimpleRadioButtonControl?>
 <BorderPane onMouseClicked="#mouseClicked" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="View.MyViewController">
    <top>
       <VBox prefHeight="25.0" prefWidth="600.0" BorderPane.alignment="CENTER">
@@ -13,7 +14,7 @@
                 <Menu mnemonicParsing="false" text="File">
                   <items>
                     <MenuItem onAction="#generateMaze" mnemonicParsing="false" text="New" />
-                        <MenuItem mnemonicParsing="false" text="Save" />
+                        <MenuItem id="Save" mnemonicParsing="false" text="Save" />
                         <MenuItem onAction="#openFile" mnemonicParsing="false" text="Load" />
                   </items>
                 </Menu>
@@ -22,9 +23,6 @@
                     <MenuItem mnemonicParsing="false" text="Properties" />
                   </items>
                 </Menu>
-                  <Menu onAction="#quit" mnemonicParsing="false" text="Exit">
-                      <MenuItem onAction="#quit" mnemonicParsing="false" text="Quit" />
-                  </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" text="About" />
@@ -51,6 +49,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
                   <Label text="Rows:" />
@@ -58,11 +57,12 @@
                   <TextField fx:id="textField_mazeRows" GridPane.columnIndex="1" />
                   <TextField fx:id="textField_mazeColumns" prefHeight="24.0" prefWidth="42.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <Button onAction="#generateMaze" mnemonicParsing="false" prefHeight="26.0" prefWidth="149.0" text="Generate" GridPane.columnSpan="2" GridPane.rowIndex="2" />
-                  <Button cancelButton="true" onAction="#solveMaze" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" text="Solve" GridPane.columnSpan="2" GridPane.rowIndex="3" />
+                  <Button onAction="#solveMaze" mnemonicParsing="false" prefHeight="26.0" prefWidth="157.0" text="Solve" GridPane.columnSpan="2" GridPane.rowIndex="3" />
                   <Label text="Player row" GridPane.rowIndex="4" />
                   <Label text="Player column" GridPane.rowIndex="5" />
                   <Label fx:id="playerRow" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label fx:id="playerCol" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                   <Button fx:id="closeButton" cancelButton="true" onAction="#quit" text="Quit" mnemonicParsing="false" prefHeight="26.0" prefWidth="149.0" GridPane.columnSpan="2"  GridPane.rowIndex="6" />
                </children>
             </GridPane>
          </children>
@@ -71,11 +71,13 @@
    <center>
        <Pane BorderPane.alignment="CENTER">
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" height="600.0"  imageFileNamePlayer="./resources/images/ash.png" imageFileNameWall="./resources/images/wall.png" imageFileNameSolution="./resources/images/ball.png" onKeyPressed="#keyPressed" width="600.0" />
+               <MazeDisplayer fx:id="mazeDisplayer"  height="400" width="400"  imageFileNamePlayer="./resources/images/ash.png" imageFileNameWall="./resources/images/wall.png" imageFileNameSolution="./resources/images/ball.png" onKeyPressed="#keyPressed"  />
            </children>
            <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
            </padding>
        </Pane>
    </center>
+    <bottom>
+    </bottom>
 </BorderPane>

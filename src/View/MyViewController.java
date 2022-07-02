@@ -4,6 +4,7 @@ import ViewModel.ViewModel;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
@@ -11,6 +12,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
 import java.net.URL;
@@ -56,6 +58,8 @@ public class MyViewController implements Initializable, Observer {
         playerRow.textProperty().bind(updatePlayerRow);
         playerCol.textProperty().bind(updatePlayerCol);
     }
+
+
 
     public void generateMaze(ActionEvent actionEvent) {
         int rows = Integer.valueOf(textField_mazeRows.getText());
@@ -113,19 +117,25 @@ public class MyViewController implements Initializable, Observer {
         mazeDisplayer.playerWon();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setContentText("CONGRATULATIONS!");
+        alert.setHeaderText("YOU WON");
         alert.show();
     }
 
     private void playerMoved() {
         setPlayerPosition(viewModel.getPlayerRow(), viewModel.getPlayerCol());
+
     }
 
     private void mazeGenerated() {
         mazeDisplayer.drawMaze(viewModel.getMaze());
     }
 
+    @FXML public javafx.scene.control.Button closeButton;
+    @FXML
     public void quit(){
         viewModel.quit();
+        Stage stage = (Stage) closeButton.getScene().getWindow();
+        stage.close();
     }
 
 }
