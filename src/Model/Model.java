@@ -8,6 +8,7 @@ import Server.ServerStrategyGenerateMaze;
 import Server.ServerStrategySolveSearchProblem;
 import algorithms.mazeGenerators.Maze;
 import algorithms.mazeGenerators.Position;
+import algorithms.search.Solution;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -127,6 +128,12 @@ public class Model extends Observable implements IModel {
             setChanged();
             notifyObservers("player moved");
         }
+        if (row == maze.getGoalPosition().getRowIndex() & col == maze.getGoalPosition().getColumnIndex() )
+            win();
+    }
+
+    private void win(){
+
     }
 
     @Override
@@ -147,10 +154,37 @@ public class Model extends Observable implements IModel {
     @Override
     public void solveMaze() {
         //solve the maze
-        solution = new Solution();
+        solution = CommunicateWithServer_SolveSearchProblem(maze);
         setChanged();
         notifyObservers("maze solved");
     }
+
+    private static Solution CommunicateWithServer_SolveSearchProblem(Maze m) {
+        final Solution[] mazeSolution = new Solution[1];
+        try {
+            Client client = new Client(InetAddress.getLocalHost(), 5401, new IClientStrategy() {
+                public void clientStrategy(InputStream inFromServer, OutputStream outToServer) {
+                    try {
+                        ObjectOutputStream toServer = new ObjectOutputStream(outToServer);
+                        ObjectInputStream fromServer = new ObjectInputStream(inFromServer);
+                        toServer.flush();
+                        toServer.writeObject(m);
+                        toServer.flush();
+                        mazeSolution[0] = (algorithms.search.Solution)fromServer.readObject();
+
+                    } catch (Exception var10) {
+                        var10.printStackTrace();
+                    }
+
+                }
+            });
+            client.communicateWithServer();
+        } catch (UnknownHostException var1) {
+            var1.printStackTrace();
+        }
+        return mazeSolution[0];
+    }
+
 
     @Override
     public Solution getSolution() {

@@ -23,17 +23,14 @@
                   </items>
                 </Menu>
                   <Menu onAction="#quit" mnemonicParsing="false" text="Exit">
+                      <MenuItem onAction="#quit" mnemonicParsing="false" text="Quit" />
                   </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
                     <MenuItem mnemonicParsing="false" text="About" />
                   </items>
                 </Menu>
-                  <Menu mnemonicParsing="false" text="About">
-                    <items>
-                      <MenuItem mnemonicParsing="false" text="Action 1" />
-                    </items>
-                  </Menu>
+
               </menus>
             </MenuBar>
          </children>
@@ -74,7 +71,7 @@
    <center>
        <Pane BorderPane.alignment="CENTER">
            <children>
-               <MazeDisplayer fx:id="mazeDisplayer" height="600.0" imageFileNamePlayer="./resources/images/mario.jpg" imageFileNameWall="./resources/images/wall.png" onKeyPressed="#keyPressed" width="600.0" />
+               <MazeDisplayer fx:id="mazeDisplayer" height="600.0"  imageFileNamePlayer="./resources/images/mario.jpg" imageFileNameWall="./resources/images/wall.png" imageFileNameSolution="./resources/images/coin.png" onKeyPressed="#keyPressed" width="600.0" />
            </children>
            <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
