@@ -2,6 +2,7 @@ package Model;
 
 import java.util.Arrays;
 
+
 public class MazeGenerator {
     public static void main(String[] args) {
         MazeGenerator generator = new MazeGenerator();
