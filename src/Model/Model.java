@@ -132,8 +132,9 @@ public class Model extends Observable implements IModel {
             win();
     }
 
-    private void win(){
-
+    public void win(){
+        setChanged();
+        notifyObservers("player won");
     }
 
     @Override

@@ -13,6 +13,7 @@ import javafx.scene.paint.Color;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 
 public class MazeDisplayer extends Canvas {
     private Maze maze;
@@ -119,7 +120,7 @@ public class MazeDisplayer extends Canvas {
             System.out.println("There is no Solve image file");
         }
         try{
-            tropImage = new Image(new FileInputStream("./resources/images/trophy.png"));
+            tropImage = new Image(new FileInputStream("./resources/images/trophy2.png"));
         } catch(FileNotFoundException e){
             System.out.println("There is no trophy image");
         }
@@ -185,5 +186,24 @@ public class MazeDisplayer extends Canvas {
             graphicsContext.fillRect(x, y, cellWidth, cellHeight);
         else
             graphicsContext.drawImage(playerImage, x, y, cellWidth, cellHeight);
+    }
+
+    public void playerWon()  {
+        double canvasHeight = getHeight();
+        double canvasWidth = getWidth();
+        Random rand = new Random();
+        GraphicsContext graphicsContext = getGraphicsContext2D();
+        Image fireGif = null;
+        try{
+            fireGif = new Image(new FileInputStream("./resources/images/firework.gif"));
+        } catch (FileNotFoundException e) {
+            System.out.println("There is no wall image file");
+        }
+        for (int i = 1; i < 10; i++){
+            int x = rand.nextInt((int)canvasWidth);
+            int y = rand.nextInt((int)canvasHeight);
+            graphicsContext.drawImage(fireGif, x, y, 400, 400);
+        }
+
     }
 }

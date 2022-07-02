@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
@@ -99,12 +100,20 @@ public class MyViewController implements Initializable, Observer {
             case "maze generated" -> mazeGenerated();
             case "player moved" -> playerMoved();
             case "maze solved" -> mazeSolved();
+            case "player won" -> playerWon();
             default -> System.out.println("Not implemented change: " + change);
         }
     }
 
     private void mazeSolved() {
         mazeDisplayer.setSolution(viewModel.getSolution());
+    }
+
+    private void playerWon(){
+        mazeDisplayer.playerWon();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText("CONGRATULATIONS!");
+        alert.show();
     }
 
     private void playerMoved() {
