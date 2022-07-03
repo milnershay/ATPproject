@@ -1,12 +1,27 @@
 .root {
-    -fx-background-color: bisque;
+    -fx-background-color:  #C3C3C3;
+    -fx-font-family: "Arial";
+    -fx-font-size:14px;
+}
+
+.menu-bar {
+    -fx-background-color: darkGrey;
+    -fx-font-family: "Arial";
+    -fx-font-size: 20px;
+}
+
+.context-menu {
+    -fx-font-family: "Arial";
+    -fx-background-color: darkGrey;
+    -fx-font-size: 16px;
 }
 
 Button {
-    -fx-text-fill: white;
-    -fx-font-family: "Arial Narrow";
+    -fx-text-fill: black;
+    -fx-font-family: "Arial";
     -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
+    -fx-background-color:Grey;
+
     -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.6), 5, 0.0, 0, 1);
 }
 

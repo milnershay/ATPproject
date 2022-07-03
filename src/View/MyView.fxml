@@ -6,7 +6,7 @@
 <?import View.MazeDisplayer?>
 <?import com.dlsc.formsfx.view.controls.SimpleRadioButtonControl?>
 
-<BorderPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" onMouseClicked="#mouseClicked" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" fx:controller="View.MyViewController"  xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" >
+<BorderPane stylesheets="@MainStyle.css" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" onMouseClicked="#mouseClicked" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" fx:controller="View.MyViewController"  xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" >
    <top>
       <VBox prefHeight="25.0" prefWidth="600.0" BorderPane.alignment="CENTER">
          <children>
@@ -26,7 +26,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="About" />
+                    <MenuItem onAction="#about" mnemonicParsing="false" text="About" />
                   </items>
                 </Menu>
 
@@ -36,9 +36,9 @@
       </VBox>
    </top>
    <left>
-      <VBox spacing="10.0" prefHeight="360.0" prefWidth="142.0" BorderPane.alignment="CENTER">
+      <VBox spacing="20.0" prefHeight="700.0" prefWidth="142.0" BorderPane.alignment="CENTER">
          <children>
-            <GridPane minHeight="10.0" minWidth="30.0" prefHeight="202.0" prefWidth="142.0" maxWidth="-Infinity" maxHeight="-Infinity">
+            <GridPane minHeight="10.0" minWidth="30.0" prefHeight="500.0" prefWidth="142.0" maxWidth="-Infinity" maxHeight="-Infinity">
               <columnConstraints>
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="89.0000244140625" minWidth="10.0" prefWidth="77.80001220703124" />
                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="102.39998264312744" minWidth="10.0" prefWidth="64.39998779296874" />
@@ -47,6 +47,16 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -64,6 +74,13 @@
                   <Label fx:id="playerRow" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <Label fx:id="playerCol" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                    <Button fx:id="closeButton" cancelButton="true" onAction="#quit" text="Quit" mnemonicParsing="false" prefHeight="26.0" prefWidth="149.0" GridPane.columnSpan="2"  GridPane.rowIndex="6" />
+                   <Label wrapText="true" text="Use NumPad to move around" GridPane.rowSpan="2" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+                   <Label wrapText="true" text="Pressing solve will show maze solution" GridPane.rowSpan="2" GridPane.columnSpan="2" GridPane.rowIndex="9" />
+                   <Label wrapText="true" text="Zoom in with control and scroll" GridPane.rowSpan="2" GridPane.columnSpan="2" GridPane.rowIndex="11" />
+                   <Label wrapText="true" text="Move map with arrows" GridPane.rowSpan="2" GridPane.columnSpan="2" GridPane.rowIndex="13" />
+                   <Label wrapText="true" text="Press Home to center map" GridPane.rowSpan="2" GridPane.columnSpan="2" GridPane.rowIndex="15" />
+
+
                </children>
             </GridPane>
          </children>
@@ -73,7 +90,7 @@
        <Pane BorderPane.alignment="CENTER">
            <AnchorPane >
            <children>
-               <MazeDisplayer AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" fx:id="mazeDisplayer"    imageFileNamePlayer="./resources/images/ash.png" imageFileNameWall="./resources/images/wall.png" imageFileNameSolution="./resources/images/ball.png" onKeyPressed="#keyPressed"  />
+               <MazeDisplayer  onKeyReleased="#keyReleased" AnchorPane.rightAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0" fx:id="mazeDisplayer"    imageFileNamePlayer="./resources/images/ash.png" imageFileNameWall="./resources/images/wall.png" imageFileNameSolution="./resources/images/ball.png" onKeyPressed="#keyPressed"  />
            </children>
            <padding>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

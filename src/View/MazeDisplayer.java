@@ -8,8 +8,11 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -17,6 +20,8 @@ import java.util.Random;
 
 public class MazeDisplayer extends Canvas {
     private Maze maze;
+    private double zoomFactor = 1.0;
+    MediaPlayer player;
     private Solution solution;
     // player position:
     private int playerRow = 0;
@@ -29,6 +34,7 @@ public class MazeDisplayer extends Canvas {
     public MazeDisplayer(){
         widthProperty().addListener(evt -> draw());
         heightProperty().addListener(evt -> draw());
+
     }
 
     public void resized(){
@@ -110,10 +116,20 @@ public class MazeDisplayer extends Canvas {
 
 
     public void drawMaze(Maze maze) {
+        String musicFile = "./resources/music/03 Title Screen.mp3";     // For example
+        Media media = new Media(new File(musicFile).toURI().toString());
+        if (player != null)
+            player.stop();
+        player = new MediaPlayer(media);
+        player.play();
         this.maze = maze;
         this.solution = null;
         draw();
     }
+
+
+
+
 
     private void draw() {
         resize(prefWidth(0), prefHeight(0));
@@ -123,7 +139,8 @@ public class MazeDisplayer extends Canvas {
             int rows = maze.getRows();
             int cols = maze.getColumns();
 
-            double cellHeight = canvasHeight / rows;
+
+            double cellHeight = canvasHeight / rows * zoomFactor;
             double cellWidth = canvasWidth / cols;
 
             GraphicsContext graphicsContext = getGraphicsContext2D();
@@ -141,7 +158,6 @@ public class MazeDisplayer extends Canvas {
 
     private void drawSolution(GraphicsContext graphicsContext, double cellHeight, double cellWidth) {
         graphicsContext.setFill(Color.GREEN);
-
         Image solImage = null;
         Image tropImage = null;
         try{
@@ -250,6 +266,11 @@ public class MazeDisplayer extends Canvas {
     }
 
     public void playerWon()  {
+        String musicFile = "./resources/music/53 Ending.mp3";     // For example
+        Media media = new Media(new File(musicFile).toURI().toString());
+        player.stop();
+        player = new MediaPlayer(media);
+        player.play();
         double canvasHeight = getHeight();
         double canvasWidth = getWidth();
         Random rand = new Random();

@@ -9,19 +9,26 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
 
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
+        Font.loadFont("resources/font/atari_full.ttf", 12.0);
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("MyView.fxml"));
         Parent root = fxmlLoader.load();
-
-        primaryStage.setTitle("Best Maze Game Ever");
+        root.getStylesheets().add("MainStyle.css");
+        primaryStage.setTitle("Poke-maze");
         primaryStage.setScene(new Scene(root));
+
+
+
         primaryStage.setResizable(true);
         primaryStage.show();
+
 
 
         IModel model = new Model();

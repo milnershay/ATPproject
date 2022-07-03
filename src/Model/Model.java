@@ -158,9 +158,14 @@ public class Model extends Observable implements IModel {
     @Override
     public void solveMaze() {
         //solve the maze
-        solution = CommunicateWithServer_SolveSearchProblem(maze);
-        setChanged();
-        notifyObservers("maze solved");
+        if (maze == null){
+            setChanged();
+            notifyObservers("no maze");
+        }else {
+            solution = CommunicateWithServer_SolveSearchProblem(maze);
+            setChanged();
+            notifyObservers("maze solved");
+        }
     }
 
     private static Solution CommunicateWithServer_SolveSearchProblem(Maze m) {
@@ -244,7 +249,7 @@ public class Model extends Observable implements IModel {
 
         try {
             InputStream in = new SimpleDecompressorInputStream(new FileInputStream(file));
-            savedMazeBytes = new byte[maze.toByteArray().length];
+            savedMazeBytes = new byte[10000000];
             in.read(savedMazeBytes);
             in.close();
         } catch (IOException var7) {
@@ -252,5 +257,10 @@ public class Model extends Observable implements IModel {
         }
 
         maze = new Maze(savedMazeBytes);
+        movePlayer(maze.getStartPosition().getRowIndex(), maze.getStartPosition().getColumnIndex());
+
+        setChanged();
+        notifyObservers("maze generated");
+
     }
 }
